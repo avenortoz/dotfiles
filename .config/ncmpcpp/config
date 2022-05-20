@@ -1,0 +1,59 @@
+# dir
+ncmpcpp_directory = ~/.config/ncmpcpp
+lyrics_directory  = ~/.config/ncmpcpp/lyrics
+mpd_music_dir     = ~/Music
+
+# behaviour
+external_editor                  = nvim
+message_delay_time               = 1
+playlist_disable_highlight_delay = 2
+autocenter_mode                  = "yes"
+centered_cursor                  = "yes"
+ignore_leading_the               = "yes"
+allow_for_physical_item_deletion = "no"
+
+# visualizer
+visualizer_data_source = /tmp/mpd.fifo
+visualizer_output_name = "my_fifo"
+visualizer_type        = "wave_filled"
+#visualizer_type        = "spectrum"
+visualizer_spectrum_dft_size = 5
+visualizer_look       = ●▮
+visualizer_color = blue, 93, cyan, magenta, red
+visualizer_fps = 60
+#visualizer_look       = ●● 
+
+# appearance
+colors_enabled        = "yes"
+playlist_display_mode = "classic"
+user_interface        = classic
+volume_color          = "white"
+
+# window
+song_window_title_format = "Music"
+statusbar_visibility     = "no"
+header_visibility        = "no"
+titles_visibility        = "yes"
+
+# progress bar
+progressbar_look = " ●"
+progressbar_color = "black"
+progressbar_elapsed_color = 93
+
+# song list
+song_status_format= "$7{%t}|{%f}{|%a}"
+song_list_format = "$8%a - {%t}|{%f}$R  %l"
+song_columns_list_format = "(53)[white]{tr} (45)[blue]{a}"
+
+song_library_format = {{%a - %t} (%b)}|{%f}
+
+# colors
+main_window_color = "blue"
+current_item_prefix = "$(blue)$r"
+current_item_suffix = "$/r$(end)"
+
+#current_item_inactive_column_prefix = red
+#current_item_inactive_column_suffix = red
+
+color1 = "white"
+color2 = "red"
