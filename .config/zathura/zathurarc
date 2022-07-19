@@ -92,7 +92,12 @@ set render-loading-fg           "#434C5E"
 #set default-bg                  "#5E81AC"
 #set render-loading-bg           "#5E81AC"
 #
-#set recolor-lightcolor          "#2E3440"
-#set recolor-darkcolor           "#ECEFF4"
-#set recolor                     "true"
+set recolor-lightcolor          "#2E3440"
+set recolor-darkcolor           "#ECEFF4"
+set index-fg                    "#ffffff"
+set index-active-bg             "#60778F"
+set font                        "monospace normal 13"
+# set index-bg                    "#000000"
+
+set recolor                     "true"
 #set guioptions                  none

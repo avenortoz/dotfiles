@@ -1,0 +1,19 @@
+function! Cond(Cond, ...)
+  let opts = get(a:000, 0, {})
+  return a:Cond ? opts : extend(opts, { 'on': [], 'for': [] })
+endfunction
+
+call plug#begin()
+Plug 'justinmk/vim-sneak'
+Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'), { 'as': 'vsc-easymotion' })
+call plug#end()
+
+xmap gc  <Plug>VSCodeCommentary
+nmap gc  <Plug>VSCodeCommentary
+omap gc  <Plug>VSCodeCommentary
+nmap gcc <Plug>VSCodeCommentaryLine
+:set langmap=йq,цw,уe,еt,нy,гu,шi,щo,зp,х[,ї],фa,іs,вd,аf,пg,рh,оj,лk,дl,ж\\;,є',ґ\\,яz,чx,сc,мv,иb,тn,ьm,ю.,ЙQ,ЦW,УE,КR,ЕT,НY,НY,ГU,ШI,ЩO,ЗP,Х{,Ї},ФA,ІS,ВD,АF,ПG,РH,ОJ,ЛK,ДL,Ж\\:,Є\\",ЯZ,ЧX,СC,МV,ИB,ТN,ЬM,Б\\<,Ю>,№#
+
+set tabstop=4
+set expandtab
+set shiftwidth=4

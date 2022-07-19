@@ -198,5 +198,6 @@ ${color2}${addrs wlo1}${color2} ${alignr}${offset -10$}${addrs eno2}
 ${color7}Up: ${color2}${upspeed wlo1}${color7} ${alignr}${offset -10$}${color2}${upspeed eno2}
 ${color7}Down: ${color2}${downspeed wlo1}${color7} ${alignr}${offset -10$}${color2}${downspeed eno2}
 
+
 # ${if_mpd_playing}${color7}${mpd_file}${endif}
 ]];

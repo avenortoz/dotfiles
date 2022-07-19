@@ -194,6 +194,7 @@ ${color7}Wi-fi${color7} ${alignr}${offset -10$}Ethernet
 ${color}${addrs wlo1}${color} ${alignr}${offset -10$}${addrs eno2}
 ${color7}Up: ${color}${upspeed wlo1}${color7} ${alignr}${offset -10$}${color}${upspeed eno2}
 ${color7}Down: ${color}${downspeed wlo1}${color7} ${alignr}${offset -10$}${color}${downspeed eno2}
+# ${color7}${hwmon0}
 
 # ${if_mpd_playing}${color7}${mpd_file}${endif}
 ]];
