@@ -1,0 +1,19 @@
+{
+	"name": "example-snippets",
+	"contributes": {
+		"snippets": [
+			{
+				"language": [
+					"lua"
+				],
+				"path": "./glfwwindow.json"
+			},
+			{
+				"language": [
+					"cpp"
+				],
+				"path": "./glfw.json"
+			}
+		]
+	}
+}

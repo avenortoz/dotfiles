@@ -99,6 +99,10 @@ return packer.startup(function(use)
     -- My plugins
     use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
     use ("joshdick/onedark.vim")
+    use("easymotion/vim-easymotion")
+
+    use('segeljakt/vim-stealth')
+
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
