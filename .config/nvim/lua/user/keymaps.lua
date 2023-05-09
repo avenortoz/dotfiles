@@ -69,3 +69,21 @@ keymap("n", "<A-f>", ":lua vim.lsp.buf.formatting()<CR>", opts)
 -- keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 -- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
+-- For tmux to not swap line after ESC
+keymap("n", "<A-k>", "<ESC>", opts)
+keymap("n", "<A-j>", "<ESC>", opts)
+keymap("i", "<A-k>", "<ESC>", opts)
+keymap("i", "<A-j>", "<ESC>", opts)
+keymap("v", "<A-k>", "<ESC>", opts)
+keymap("v", "<A-j>", "<ESC>", opts)
+keymap("x", "<A-k>", "<ESC>", opts)
+keymap("x", "<A-j>", "<ESC>", opts)
+-- vim.keys.insert_mode["<A-k>"] = <Nop>
+-- vim.keys.normal_mode["<A-j>"] = false
+-- vim.keys.normal_mode["<A-k>"] = false
+-- vim.keys.visual_block_mode["<A-j>"] = false
+-- vim.keys.visual_block_mode["<A-k>"] = false
+-- vim.keys.visual_block_mode["J"] = false
+-- vim.keys.visual_block_mode["K"] = false
+
+keymap("n", "f", "<Plug>Sneak_f", {silent = true})

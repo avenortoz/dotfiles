@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-export PYGMENTIZE_STYLE=one-dark
+# export PYGMENTIZE_STYLE=one-dark
+# export PYGMENTIZE_STYLE=autumn
+export PYGMENTIZE_STYLE=material
+# export PYGMENTIZE_STYLE=gruvbox
 
 set -o noclobber -o noglob -o nounset -o pipefail
 IFS=$'\n'

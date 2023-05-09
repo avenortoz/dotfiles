@@ -154,6 +154,11 @@ _G.packer_plugins = {
     path = "/home/avenortoz/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim",
     url = "https://github.com/lukas-reineke/indent-blankline.nvim"
   },
+  ["lazygit.nvim"] = {
+    loaded = true,
+    path = "/home/avenortoz/.local/share/nvim/site/pack/packer/start/lazygit.nvim",
+    url = "https://github.com/kdheepak/lazygit.nvim"
+  },
   ["lualine.nvim"] = {
     loaded = true,
     path = "/home/avenortoz/.local/share/nvim/site/pack/packer/start/lualine.nvim",
@@ -236,6 +241,11 @@ _G.packer_plugins = {
     path = "/home/avenortoz/.local/share/nvim/site/pack/packer/start/project.nvim",
     url = "https://github.com/ahmedkhalf/project.nvim"
   },
+  ["rust-tools.nvim"] = {
+    loaded = true,
+    path = "/home/avenortoz/.local/share/nvim/site/pack/packer/start/rust-tools.nvim",
+    url = "https://github.com/simrat39/rust-tools.nvim"
+  },
   ["telescope.nvim"] = {
     loaded = true,
     path = "/home/avenortoz/.local/share/nvim/site/pack/packer/start/telescope.nvim",
@@ -255,6 +265,21 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/avenortoz/.local/share/nvim/site/pack/packer/start/vim-bbye",
     url = "https://github.com/moll/vim-bbye"
+  },
+  ["vim-easymotion"] = {
+    loaded = true,
+    path = "/home/avenortoz/.local/share/nvim/site/pack/packer/start/vim-easymotion",
+    url = "https://github.com/easymotion/vim-easymotion"
+  },
+  ["vim-sneak"] = {
+    loaded = true,
+    path = "/home/avenortoz/.local/share/nvim/site/pack/packer/start/vim-sneak",
+    url = "https://github.com/justinmk/vim-sneak"
+  },
+  ["vim-stealth"] = {
+    loaded = true,
+    path = "/home/avenortoz/.local/share/nvim/site/pack/packer/start/vim-stealth",
+    url = "https://github.com/segeljakt/vim-stealth"
   },
   ["which-key.nvim"] = {
     loaded = true,

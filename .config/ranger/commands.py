@@ -7,14 +7,15 @@
 # A simple command for demonstration purposes follows.
 # -----------------------------------------------------------------------------
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
 
 # You can import any python module as needed.
 import os
 
 # You always need to import ranger.api.commands here to get the Command class:
 from ranger.api.commands import Command
-
+import subprocess
+import ranger.api.commands as ranger
 
 # Any class that is a subclass of "Command" will be integrated into ranger as a
 # command.  Try typing ":my_edit<ENTER>" in ranger!
@@ -61,11 +62,6 @@ class my_edit(Command):
         # content of the current directory.
         return self._tab_directory_content()
 
-import os
-import subprocess
-
-import ranger.api.commands as ranger
-
 
 class fzf(ranger.Command):
     """
@@ -88,9 +84,30 @@ class fzf(ranger.Command):
         fzf = self.fm.execute_command(command, stdout=subprocess.PIPE)
         stdout, _ = fzf.communicate()
         if fzf.returncode == 0:
-            fzf_file = os.path.abspath(stdout.decode('utf-8').rstrip('\n'))
+            fzf_file = os.path.abspath(stdout.decode("utf-8").rstrip("\n"))
             if os.path.isdir(fzf_file):
                 self.fm.cd(fzf_file)
             else:
                 self.fm.select_file(fzf_file)
 
+
+class fzf_my_files(ranger.Command):
+    """
+    :fzf_my_files
+    """
+
+    def execute(self):
+        if self.quantifier:
+            # match only directories
+            command = "find ~/bfiles/univ ~/bfiles/code ~/bfiles/hob/domains ~/bfiles/explore --type d | sed 1d | fzf +m"
+        else:
+            # match files and directories
+            command = "find ~/bfiles/univ ~/bfiles/code ~/bfiles/hob/domains ~/bfiles/explore | sed 1d | fzf +m"
+        fzf = self.fm.execute_command(command, stdout=subprocess.PIPE)
+        stdout, _ = fzf.communicate()
+        if fzf.returncode == 0:
+            fzf_file = os.path.abspath(stdout.decode("utf-8").rstrip("\n"))
+            if os.path.isdir(fzf_file):
+                self.fm.cd(fzf_file)
+            else:
+                self.fm.select_file(fzf_file)

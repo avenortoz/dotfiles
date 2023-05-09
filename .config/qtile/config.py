@@ -24,6 +24,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from webbrowser import get
 from libqtile import bar, layout, widget, hook, qtile
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
@@ -42,6 +43,7 @@ autost = os.path.join(qtile_path, "autostart.sh")
 bluetooth_prompt = os.path.join(qtile_path, "dmenu_bluetooth.sh")
 locker = "slock"
 screenshot = "flameshot gui"
+second_monitor_script_path = os.path.join(qtile_path, "screen.sh")
 
 
 @hook.subscribe.startup_once
@@ -56,6 +58,12 @@ def autostart():
     for p in processes:
         Popen(p)
     Popen(["bash", autost])
+
+
+# @hook.subscribe.client_new
+# def floating_dialogs(window):
+#     if(window.name == "kitty"):
+#         window.floating = True
 
 
 # TODO add polkit for pamac to authinticate
@@ -109,7 +117,7 @@ keys = [
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    Key([mod, "control"], "y", lazy.shutdown(), desc="Shutdown Qtile"),
     # Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key([mod], "r", lazy.spawn("rofi -show run")),
     Key(
@@ -142,27 +150,149 @@ keys = [
         lazy.spawn(os.path.join(qtile_path, "brightness.sh") + " 0"),
         desc="Keyboard brightness down",
     ),
-    Key(["control"], "w", lazy.spawn(screenshot)),
+    Key(
+        [mod],
+        "c",
+        lazy.spawn(
+            "rofi -modi \"clipboard:greenclip print\" -show clipboard -run-command '{cmd}'"
+        ),
+        desc="Toggle clipboard selection",
+    ),
+    Key(
+        [mod, "control"],
+        "m",
+        lazy.spawn("kitty ncmpcpp"),
+        desc="Open music player",
+    ),
+    Key(
+        [mod, "control"],
+        "p",
+        lazy.spawn("kitty ping -c5 google.com"),
+        desc="Open music player",
+    ),
+    Key(
+        [mod],
+        "b",
+        lazy.spawn("firefox"),
+        desc="Browser",
+    ),
+    Key([mod, "control"], "w", lazy.spawn(screenshot)),
     Key([mod, "control"], "z", lazy.spawn(locker), desc="Toggle maximize"),
     Key([mod], "f", lazy.window.toggle_floating(), desc="Toggle between layouts"),
     Key([mod], "m", lazy.window.toggle_maximize(), desc="Toggle maximize"),
+    Key([mod], "a", lazy.layout.maximize(), desc="Toggle maximize"),
+    Key([mod, "control"], "a", lazy.layout.swap_main(), desc="Toggle maximize"),
+    Key([mod], "g", lazy.layout.reset(), desc="Toggle maximize"),
+    Key(
+        [mod, "control"],
+        "s",
+        lazy.spawn(second_monitor_script_path),
+        desc="Toggle second monitor if one is present.",
+    ),
+    Key(
+        [mod],
+        "slash",
+        lazy.spawn(os.path.expanduser("~/.config/rofi/powermenu/powermenu.sh")),
+        desc="Run rofi as the powermenu",
+    ),
 ]
+
+# ===============================================================================
+# ------------------------------------LAYOUTS------------------------------------
+# ===============================================================================
+layouts = [
+    # layout.Columns(border_focus_stack=["#3B4252", "#2E3440"], border_width=3),
+    layout.MonadTall(
+        border_focus="5e81ac",
+        border_normal="b48ead",
+        border_width=3,
+        margin=5,
+    ),
+    layout.Columns(
+        border_focus="5e81ac",
+        border_normal="b48ead",
+        border_width=3,
+        margin=5,
+    ),
+    # layout.MonadWide(
+    #     border_focus="5e81ac",
+    #     border_normal="b48ead",
+    #     border_width=3,
+    #     margin=5,
+    # ),
+    layout.Max(
+        border_focus="5e81ac",
+        border_normal="b48ead",
+        border_width=3,
+        margin=5,
+    ),
+    layout.MonadThreeCol(
+        border_focus="5e81ac",
+        border_normal="b48ead",
+        border_width=3,
+        margin=5,
+    ),
+    layout.Stack(
+        border_focus="5e81ac",
+        border_normal="b48ead",
+        border_width=3,
+        margin=5,
+    ),
+]
+layouts[0].cmd_reset(0.60, redraw=False)
+# layouts[2].cmd_reset(0.80, redraw=False)
 
 # ===============================================================================
 # ------------------------------------GROUPS-------------------------------------
 # ===============================================================================
 groups = [Group(i) for i in "123456789"]
+groups[0] = Group(
+    name="code",
+    label=" ",
+    layout="monadtall",
+    layouts=[layouts[0], layouts[1], layouts[2]],
+)
+groups[1] = Group(
+    name="util",
+    label="",
+    layout="columns",
+)
+groups[2] = Group(
+    name="vscode",
+    label=" ",
+    # label="3",
+    layout="max",
+    matches=[
+        Match(wm_class=["code"]),
+    ],
+)
+groups[4] = Group(
+    name="zoom",
+    label="5",
+    layout="columns",
+    matches=[Match(wm_class=["zoom"])],
+)
 groups[5] = Group(
-    "6",
+    name="telegram",
+    label="6",
+    layout="monadwide",
+    matches=[Match(wm_class=["TelegramDesktop"])],
+)
+groups[6] = Group(
+    name="docs",
+    label=" ",
     layout="max",
     matches=[
         Match(wm_class=["zeal"]),
-        Match(
-            wm_class=["Zathura"],
-        ),
+        Match(wm_class=["Zathura"]),
     ],
 )
-groups[7] = Group("8", layout="max", matches=[Match(wm_class=["firefox"])])
+groups[7] = Group(
+    name="browser", label=" ", layout="max", matches=[Match(wm_class=["firefox"])]
+)
+groups[8] = Group(
+    name="music", label="", layout="columns", matches=[Match(wm_class=["Ncmpcpp"])]
+)
 
 
 def toscreen(qtile, group_name):
@@ -175,20 +305,22 @@ def toscreen(qtile, group_name):
                 break
 
 
-for i in groups:
+for idx, i in enumerate(groups, 1):
     keys.extend(
         [
             # mod1 + letter of group = switch to group
             Key(
                 [mod],
-                i.name,
+                # i.name,
+                f"{idx}",
                 lazy.group[i.name].toscreen(),
                 desc="Switch to group {}".format(i.name),
             ),
             # mod1 + shift + letter of group = switch to & move focused window to group
             Key(
                 [mod, "shift"],
-                i.name,
+                # i.name,
+                f"{idx}",
                 lazy.window.togroup(i.name, switch_group=True),
                 desc="Switch to & move focused window to group {}".format(i.name),
             ),
@@ -196,12 +328,16 @@ for i in groups:
             # # mod1 + shift + letter of group = move focused window to group
             # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
             #     desc="move focused window to group {}".format(i.name)),
-            Key([mod], i.name, lazy.function(toscreen, i.name)),
+            Key(
+                [mod],
+                # i.name,
+                f"{idx}",
+                lazy.function(toscreen, i.name),
+            ),
             # mod1 + shift + letter of group = switch to & move focused window to group
             # Key([mod, "shift"], i.name, lazy.window.togroup(i.name)),
         ]
     )
-
 
 # ===============================================================================
 # ------------------------------------WIDGETS------------------------------------
@@ -223,28 +359,35 @@ extension_defaults = widget_defaults.copy()
 widget_colors = {
     "time": {"background": "a3be8c", "foreground": ""},
     "volume": {"background": "ebcb8b", "foreground": ""},
+    "systray": {"background": "B48EAD", "foreground": ""},
     "battery": {"background": "5e81ac", "foreground": ""},
     "keyboard": {"background": "8fbcbb", "foreground": ""},
-    "weather": {"background": "B48EAD", "foreground": ""},
-    # "": {"background": "", "foreground": ""},
+    # "weather": {"background": "B48EAD", "foreground": ""},
+    "weather": {"background": "bf6a6a", "foreground": ""},
 }
 
 
 def get_bar():
     return bar.Bar(
         [
+            widget.Spacer(10),
             widget.GroupBox(
                 active="5e81ac",
                 inactive="b48ead",
-                this_current_screen_border="bf616a",
-                highlight_method="line",
+                this_current_screen_border="B48EAD",
+                highlight_method="text",
                 highlight_color=["2e3440", "2e3440"],
-                center_aligned=True,
+                disable_drag=True,
+                # center_aligned=True,
                 hide_unused=True,
+                # margin=5,
+                padding=0,
             ),
+            widget.Spacer(15),
             widget.WindowName(
                 max_chars=15,
-                foreground="5e81ac",
+                # foreground="5e81ac",
+                foreground="B48EAD",
             ),
             # widget.Prompt(
             #     prompt="Run:",
@@ -270,10 +413,20 @@ def get_bar():
                 fmt=" ",
             ),
             widget.Spacer(bar.STRETCH),
-            widget.Systray(),
+            widget.TextBox(
+                text="",
+                # background=widget_colors["systray"]["background"],
+                foreground=widget_colors["systray"]["background"],
+                fontsize=24,  # Font pixel size. Calculated if None.
+                padding=0,
+            ),
+            widget.Systray(
+                background=widget_colors["systray"]["background"],
+            ),
             widget.TextBox(
                 text="",
                 foreground=widget_colors["weather"]["background"],
+                background=widget_colors["systray"]["background"],
                 fontsize=24,  # Font pixel size. Calculated if None.
                 padding=0,
             ),
@@ -282,24 +435,24 @@ def get_bar():
                 format="{icon}{main_temp} °{units_temperature} {humidity}%",
                 background=widget_colors["weather"]["background"],
             ),
-            widget.TextBox(
-                text="",
-                foreground=widget_colors["keyboard"]["background"],
-                background=widget_colors["weather"]["background"],
-                fontsize=24,  # Font pixel size. Calculated if None.
-                padding=0,
-            ),
-            widget.TextBox(
-                text=" ",
-                background=widget_colors["keyboard"]["background"],
-            ),
+            # widget.TextBox(
+            #     text="",
+            #     foreground=widget_colors["keyboard"]["background"],
+            #     background=widget_colors["weather"]["background"],
+            #     fontsize=24,  # Font pixel size. Calculated if None.
+            #     padding=0,
+            # ),
+            # widget.TextBox(
+            #     text=" ",
+            #     background=widget_colors["keyboard"]["background"],
+            # ),
             # widget.KeyboardLayout(
             #     # foreground="8fbcbb",
             #     background=widget_colors["keyboard"]["background"],
             # ),
             widget.TextBox(
                 text="",
-                background=widget_colors["keyboard"]["background"],
+                background=widget_colors["weather"]["background"],
                 foreground=widget_colors["battery"]["background"],
                 # background="5e81ac",
                 fontsize=24,  # Font pixel size. Calculated if None.
@@ -366,19 +519,19 @@ def get_bar():
                 format="%a %I:%M",
                 background=widget_colors["time"]["background"],
             ),
-            widget.TextBox(
-                text="",
-                background=widget_colors["time"]["background"],
-                foreground="bf6a6a",
-                fontsize=24,  # Font pixel size. Calculated if None.
-                padding=0,
-            ),
-            widget.TextBox(
-                text=" ",
-                # foreground="bf6a6a",
-                background="bf6a6a",
-                padding=0,
-            ),
+            # widget.TextBox(
+            #     text="",
+            #     background=widget_colors["time"]["background"],
+            #     foreground="bf6a6a",
+            #     fontsize=24,  # Font pixel size. Calculated if None.
+            #     padding=0,
+            # ),
+            # widget.TextBox(
+            #     text=" ",
+            #     # foreground="bf6a6a",
+            #     background="bf6a6a",
+            #     padding=0,
+            # ),
             # widget.Wlan(
             #     # foreground="bf6a6a",
             #     background="bf6a6a",
@@ -389,48 +542,21 @@ def get_bar():
         26,
         background="2e3440",
         foreground="ffffff",
-        border_width=3,
+        border_width=0,
         border_color="5e81ac",
+        opacity=0.8,
     )
-
-
-# ===============================================================================
-# ------------------------------------LAYOUTS------------------------------------
-# ===============================================================================
-layouts = [
-    # layout.Columns(border_focus_stack=["#3B4252", "#2E3440"], border_width=3),
-    layout.MonadTall(
-        border_focus="5e81ac",
-        border_normal="b48ead",
-        border_width=3,
-        margin=5,
-    ),
-    layout.Columns(
-        border_focus="5e81ac",
-        border_normal="b48ead",
-        border_width=3,
-        margin=5,
-    ),
-    layout.MonadWide(
-        border_focus="5e81ac",
-        border_normal="b48ead",
-        border_width=3,
-        margin=5,
-    ),
-    layout.Max(
-        border_focus="5e81ac",
-        border_normal="b48ead",
-        border_width=3,
-        margin=5,
-    ),
-]
-layouts[0].cmd_reset(0.60, redraw=False)
-layouts[2].cmd_reset(0.80, redraw=False)
 
 
 screens = [
     Screen(top=get_bar()),
+    # Screen(top=get_bar()),
     Screen(),
+    # Screen(top=get_bar()),
+    # Screen(bottom=bar.Bar(
+    # [widget.GroupBox(), widget.WindowName()], 30), ),
+    # Screen(bottom=bar.Bar(
+    # [widget.GroupBox(), widget.WindowName()], 30), ),
 ]
 
 # ===============================================================================

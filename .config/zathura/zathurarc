@@ -99,5 +99,5 @@ set index-active-bg             "#60778F"
 set font                        "monospace normal 13"
 # set index-bg                    "#000000"
 
-set recolor                     "true"
+# set recolor                     "true"
 #set guioptions                  none
