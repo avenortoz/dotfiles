@@ -99,10 +99,10 @@ class fzf_my_files(ranger.Command):
     def execute(self):
         if self.quantifier:
             # match only directories
-            command = "find ~/bfiles/univ ~/bfiles/code ~/bfiles/hob/domains ~/bfiles/explore --type d | sed 1d | fzf +m"
+            command = "find ~/bfiles/univ ~/bfiles/code ~/bfiles/hob/domains ~/bfiles/explore ~/bfiles/books --type d | sed 1d | fzf +m"
         else:
             # match files and directories
-            command = "find ~/bfiles/univ ~/bfiles/code ~/bfiles/hob/domains ~/bfiles/explore | sed 1d | fzf +m"
+            command = "find ~/bfiles/univ ~/bfiles/code ~/bfiles/hob/domains ~/bfiles/explore ~/bfiles/books | sed 1d | fzf +m"
         fzf = self.fm.execute_command(command, stdout=subprocess.PIPE)
         stdout, _ = fzf.communicate()
         if fzf.returncode == 0:

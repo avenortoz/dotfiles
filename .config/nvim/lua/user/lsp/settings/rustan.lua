@@ -5,7 +5,7 @@ return {
                 allFeatures = true,
                 overrideCommand = {
                     'cargo', 'clippy', '--workspace', '--message-format=json',
-                    '--all-targets', '--all-features'
+                    '--all-targets', '--all-features', '--', '-W', 'clippy::pedantic'
                 }
             }
         }

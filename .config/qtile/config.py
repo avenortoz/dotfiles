@@ -245,19 +245,19 @@ layouts[0].cmd_reset(0.60, redraw=False)
 # ===============================================================================
 # ------------------------------------GROUPS-------------------------------------
 # ===============================================================================
-groups = [Group(i) for i in "123456789"]
-groups[0] = Group(
+groups = [Group(i) for i in "0123456789"]
+groups[1] = Group(
     name="code",
     label=" ",
     layout="monadtall",
     layouts=[layouts[0], layouts[1], layouts[2]],
 )
-groups[1] = Group(
+groups[2] = Group(
     name="util",
     label="",
     layout="columns",
 )
-groups[2] = Group(
+groups[3] = Group(
     name="vscode",
     label=" ",
     # label="3",
@@ -266,19 +266,19 @@ groups[2] = Group(
         Match(wm_class=["code"]),
     ],
 )
-groups[4] = Group(
+groups[5] = Group(
     name="zoom",
     label="5",
     layout="columns",
     matches=[Match(wm_class=["zoom"])],
 )
-groups[5] = Group(
+groups[6] = Group(
     name="telegram",
     label="6",
     layout="monadwide",
     matches=[Match(wm_class=["TelegramDesktop"])],
 )
-groups[6] = Group(
+groups[7] = Group(
     name="docs",
     label=" ",
     layout="max",
@@ -287,10 +287,10 @@ groups[6] = Group(
         Match(wm_class=["Zathura"]),
     ],
 )
-groups[7] = Group(
+groups[8] = Group(
     name="browser", label=" ", layout="max", matches=[Match(wm_class=["firefox"])]
 )
-groups[8] = Group(
+groups[9] = Group(
     name="music", label="", layout="columns", matches=[Match(wm_class=["Ncmpcpp"])]
 )
 
@@ -305,7 +305,7 @@ def toscreen(qtile, group_name):
                 break
 
 
-for idx, i in enumerate(groups, 1):
+for idx, i in enumerate(groups):
     keys.extend(
         [
             # mod1 + letter of group = switch to group
